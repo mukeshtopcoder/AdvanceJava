@@ -4,6 +4,7 @@ public class Main {
 	private static Scanner sc = new Scanner(System.in);
 	public static void main(String[] args) {
 		while(true) {
+			System.out.println("---------------------------\n");
 			System.out.println("1. Admin Login");
 			System.out.println("2. Customer Login");
 			System.out.println("3. Customer Signup");

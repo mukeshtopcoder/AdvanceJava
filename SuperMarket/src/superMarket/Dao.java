@@ -18,6 +18,40 @@ public class Dao {
 		}
 		return null;
 	}
+	public static boolean UpdateProduct(Products p) {
+		try {
+			String sql = "UPDATE product SET qty=? WHERE pid=?";
+			PreparedStatement pst = getConnection().prepareStatement(sql);
+			pst.setInt(1, p.getQty());
+			pst.setInt(2, p.getPid());
+			int ar = pst.executeUpdate();
+			if(ar>0) {
+				return true;
+			}else {
+				return false;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	public static boolean OrderProduct(int uid,int pid,int qty) {
+		try {
+			String sql = "INSERT INTO orders(uid,pid,qty) VALUE(?,?,?)";
+			PreparedStatement pst = getConnection().prepareStatement(sql);
+			pst.setInt(1, uid);
+			pst.setInt(2, pid);
+			pst.setInt(3, qty);
+			int ar = pst.executeUpdate();
+			if(ar>0)
+				return true;
+			else
+				return false;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 	public static Users GetUserById(int uid) {
 		Users u = null;
 		try {

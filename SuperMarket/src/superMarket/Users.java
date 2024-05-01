@@ -68,7 +68,11 @@ public class Users {
 			if(u.getRoles().equals("Admin")) {
 				AdminDashboard();
 			}else {
-				CustomerDashboard();
+				if(u.getStatus()==1) {
+				CustomerDashboard(u);
+				}else {
+					System.out.println("You Are Not A Active Customer\nPlease Contact Admin!\n");
+				}
 			}
 		}else {
 			System.out.println("User is Not Available");
@@ -115,8 +119,32 @@ public class Users {
 			}
 		}
 	}
-	public static void CustomerDashboard() {
-		
+	public static void CustomerDashboard(Users c) {
+		int flag=1;
+		while(flag==1) {
+		System.out.println("\n\n***** Welcome, "+c.getFname()+" *****");
+		System.out.println("1. View All Products");
+		System.out.println("2. View All Orders");
+		System.out.println("3. Cancel An Order");
+		System.out.println("4. Exit");
+		System.out.print("Enter Your Choice : ");
+		int choice = sc.nextInt();
+		switch(choice) {
+		case 1:
+			Products.BuyProduct(c);
+			break;
+		case 2: 
+			break;
+		case 3:
+			break;
+		case 4:
+			System.out.println("Bye, "+c.getFname());
+			flag=0;
+			break;
+		default:
+			System.out.println("\nWrong Choice!\n");
+		}
+		}
 	}
 	public static void AddUser(String roles) {
 		System.out.print("Enter Full Name : ");

@@ -7,6 +7,33 @@ public class Products {
 	private int qty;
 	private int price;
 	private static Scanner scanner = new Scanner(System.in);
+	
+	public static void BuyProduct(Users c) {
+		ViewProducts();
+		System.out.print("(Press 0 To Exit!)\nEnter Product ID To Buy : ");
+		int pid = scanner.nextInt();
+		if(pid!=0) {
+			Products p = Dao.getProductById(pid);
+			if(p!=null) {
+				System.out.print("Enter Quantity To Buy : ");
+				int qty = scanner.nextInt();
+				if(p.getQty()>=qty) {
+					if(Dao.OrderProduct(c.getUid(),p.getPid(),qty)) {
+						p.setQty(p.getQty()-qty);
+						Dao.UpdateProduct(p);
+						System.out.println("Congrats!\nOrder Placed!");
+					}
+					else
+						System.out.println("Failed To Order!");
+				}else {
+					System.out.println("Oops! Insufficient Quantity!");
+					System.out.println("You Can Buy Only "+p.getQty()+" Products");
+				}
+			}else {
+				System.out.println("\nProduct Not Found!");
+			}
+		}
+	}
 	public static void DeleteProduct(Scanner sc) {
 		ViewProducts();
 		System.out.print("Enter Product ID To Delete : ");
@@ -45,8 +72,8 @@ public class Products {
 		scanner.nextLine();
 	}
 	public static void AddProduct(Scanner sc) {
-		System.out.print("Enter Product Name in One Word : ");
-		String pname = sc.next();
+		System.out.print("Enter Product Name : ");
+		String pname = scanner.nextLine();
 		System.out.print("Enter Quantity : ");
 		int qty = sc.nextInt();
 		System.out.print("Enter Price : ");
