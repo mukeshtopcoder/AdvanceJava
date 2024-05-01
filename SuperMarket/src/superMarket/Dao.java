@@ -18,6 +18,48 @@ public class Dao {
 		}
 		return null;
 	}
+	public static Users GetUserById(int uid) {
+		Users u = null;
+		try {
+			String sql = "SELECT * FROM users WHERE uid=?";
+			PreparedStatement pst = getConnection().prepareStatement(sql);
+			pst.setInt(1, uid);
+			ResultSet rs = pst.executeQuery();
+			if(rs.next()) {
+				u = new Users();
+				u.setUid(rs.getInt(1));
+				u.setFname(rs.getString(2));
+				u.setEmail(rs.getString(3));
+				u.setPwd(rs.getString(4));
+				u.setRoles(rs.getString(5));
+				u.setStatus(rs.getInt(6));
+			}
+			return u;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return u;
+	}
+	public static boolean UpdateUserById(Users u) {
+		try {
+			String sql = "UPDATE users SET fname=?,email=?,pwd=?,roles=?,status=? WHERE uid=?";
+			PreparedStatement pst = getConnection().prepareStatement(sql);
+			pst.setString(1, u.getFname());
+			pst.setString(2, u.getEmail());
+			pst.setString(3, u.getPwd());
+			pst.setString(4, u.getRoles());
+			pst.setInt(5, u.getStatus());
+			pst.setInt(6, u.getUid());
+			int ar = pst.executeUpdate();
+			if(ar>0)
+				return true;
+			else
+				return false;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 	public static boolean DeleteProduct(int pid) {
 		try {
 			String sql = "DELETE FROM product WHERE pid=?";
@@ -68,6 +110,7 @@ public class Dao {
 				u.setEmail(rs.getString(3));
 				u.setPwd(rs.getString(4));
 				u.setRoles(rs.getString(5));
+				u.setStatus(rs.getInt(6));
 				al.add(u);
 			}
 			return al;
@@ -112,6 +155,7 @@ public class Dao {
 				u.setEmail(rs.getString(3));
 				u.setPwd(rs.getString(4));
 				u.setRoles(rs.getString(5));
+				u.setStatus(rs.getInt(6));
 			}
 			if(flag==1)
 				return u;

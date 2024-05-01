@@ -7,18 +7,55 @@ public class Users {
 	private String email;
 	private String pwd;
 	private String roles;
+	private int status;
 	private static Scanner sc = new Scanner(System.in);
 	private static Scanner scanner = new Scanner(System.in);
+	public static void ActiveUser() {
+		Users user = null;
+		ViewUsers("Customer");
+		System.out.print("Enter User ID : ");
+		int uid = sc.nextInt();
+		user = Dao.GetUserById(uid);
+		if(user!=null) {
+			System.out.println("Name : "+user.getFname()+"\nEmail : "+user.getEmail());
+			System.out.println("1. Active");
+			System.out.println("2. Unactive");
+			System.out.print("Enter Choice : ");
+			int flag=0;
+			int choice = sc.nextInt();
+			if(choice==1) {
+				flag=1;
+				user.setStatus(1);
+			}else {
+				if(choice==2) {
+					flag=1;
+					user.setStatus(0);
+				}else {
+					System.out.println("Wrong Choice!\n");
+				}
+			}
+			if(flag==1) {
+				Dao.UpdateUserById(user);
+				System.out.println("User Update Successfully!\n");
+			}
+		}else {
+			System.out.println("User Not Found!");
+		}
+	}
 	public static void ViewUsers(String roles) {
 		ArrayList<Users> al = Dao.ViewUsers(roles);
 		System.out.println("Here Is All Customer Details");
-		System.out.println("  UID         Name            Email              ");
+		System.out.println("  UID         Name            Email         Status  ");
 		System.out.println("---------------------------------------------");
 		for(Users u : al) {
-			System.out.printf("%5d%15s%25s\n",u.getUid(),u.getFname(),u.getEmail());
+			System.out.printf("%5d%15s%20s",u.getUid(),u.getFname(),u.getEmail());
+			if(u.getStatus()==1)
+				System.out.print("   Active\n");
+			else
+				System.out.print("   Unactive\n");
 		}
 		System.out.println("---------------------------------------------");
-		System.out.println("Press Enter Key To Exit...");
+		System.out.println("Press Enter Key To Continue...");
 		scanner.nextLine();
 	}
 	public static void Login(String roles) {
@@ -64,8 +101,10 @@ public class Users {
 				Products.DeleteProduct(sc);
 				break;
 			case 5:
+				
 				break;
 			case 6:
+				ActiveUser();
 				break;
 			case 7:
 				System.out.println("\nBye-Bye ADMIN!\n");
@@ -80,8 +119,8 @@ public class Users {
 		
 	}
 	public static void AddUser(String roles) {
-		System.out.print("Enter First Name : ");
-		String fname = sc.next();
+		System.out.print("Enter Full Name : ");
+		String fname = sc.nextLine();
 		System.out.print("Enter Email : ");
 		String email = sc.next();
 		System.out.print("Enter Password : ");
@@ -133,5 +172,11 @@ public class Users {
 	}
 	public void setRoles(String roles) {
 		this.roles = roles;
+	}
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
 	}
 }

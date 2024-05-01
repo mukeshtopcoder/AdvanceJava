@@ -9,9 +9,10 @@ public class Products {
 	private static Scanner scanner = new Scanner(System.in);
 	public static void DeleteProduct(Scanner sc) {
 		ViewProducts();
-		System.out.println("Enter Product ID To Delete : ");
+		System.out.print("Enter Product ID To Delete : ");
 		int pid = sc.nextInt();
 		Products p = Dao.getProductById(pid);
+		if(p!=null) {
 		System.out.println("\nYour Selected Product");
 		System.out.println("Product ID : "+p.getPid());
 		System.out.println("Product Name : "+p.getPname());
@@ -26,6 +27,9 @@ public class Products {
 				System.out.println("Failed To Delete!");
 		}else {
 			System.out.println("Have A Nice Day!");
+		}
+		}else {
+			System.out.println("Product Not Found!");
 		}
 	}
 	public static void ViewProducts() {
