@@ -134,6 +134,7 @@ public class Users {
 			Products.BuyProduct(c);
 			break;
 		case 2: 
+			Orders.ViewOrderById(c.getUid());
 			break;
 		case 3:
 			break;
