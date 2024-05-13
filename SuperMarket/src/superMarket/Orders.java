@@ -1,7 +1,7 @@
 package superMarket;
 
 import java.util.ArrayList;
-
+import java.util.Scanner;
 public class Orders {
 	int oid;
 	int uid;
@@ -12,13 +12,28 @@ public class Orders {
 	int total;
 	int gst;
 	int gtotal;
+	public static Scanner scanner = new Scanner(System.in);
 	public static void ViewOrderById(int uid) {
 		ArrayList<Orders> al = Dao.ViewOrderById(uid);
 		System.out.println("Your All Orders!");
 		System.out.println("-------------------------------------");
+		System.out.println("  OID       Product     Qty   Price   Total     GST   GrandTotal");
 		for(Orders o : al) {
-			System.out.println("");
+			System.out.printf("%5d%17s%5s%8d%8d%8d%8d\n",o.getOid(),o.getPname(),o.getQty(),o.getPrice(),o.getTotal(),o.getGst(),o.getGtotal());
 		}
+		System.out.println("\nPress Enter To Continue...");
+		scanner.nextLine();
+	}
+	public static void ViewOrders() {
+		ArrayList<Orders> al = Dao.ViewOrders();
+		System.out.println("Your All Orders!");
+		System.out.println("-------------------------------------");
+		System.out.println("  OID                Name      Product     Qty   Price   Total     GST   GrandTotal");
+		for(Orders o : al) {
+			System.out.printf("%5d%20s%17s%5s%8d%8d%8d%8d\n",o.getOid(),o.getFname(),o.getPname(),o.getQty(),o.getPrice(),o.getTotal(),o.getGst(),o.getGtotal());
+		}
+		System.out.println("\nPress Enter To Continue...");
+		scanner.nextLine();
 	}
 	public Orders(int uid, String fname, String pname, int qty, int price, int total, int gst, int gtotal) {
 		super();

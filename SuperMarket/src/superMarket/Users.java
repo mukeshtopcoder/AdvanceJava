@@ -105,7 +105,7 @@ public class Users {
 				Products.DeleteProduct(sc);
 				break;
 			case 5:
-				
+				Orders.ViewOrders();
 				break;
 			case 6:
 				ActiveUser();

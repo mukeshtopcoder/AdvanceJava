@@ -45,6 +45,32 @@ public class Dao {
 		}
 		return al;
 	}
+	public static ArrayList<Orders> ViewOrders() {
+		ArrayList<Orders> al = new ArrayList<>();
+		Orders o = null;
+		try {
+			String sql = "SELECT orders.oid,users.uid,users.fname,product.pname,orders.qty,product.price,orders.qty*product.price AS Total,orders.qty*product.price*18/100 AS gst,orders.qty*product.price+orders.qty*product.price*18/100 AS GrandTotal FROM users JOIN orders ON users.uid=orders.uid JOIN product ON orders.pid=product.pid;";
+			PreparedStatement pst = getConnection().prepareStatement(sql);
+			ResultSet rs = pst.executeQuery();
+			while(rs.next()) {
+				o = new Orders();
+				o.setOid(rs.getInt(1));
+				o.setUid(rs.getInt(2));
+				o.setFname(rs.getString(3));
+				o.setPname(rs.getString(4));
+				o.setQty(rs.getInt(5));
+				o.setPrice(rs.getInt(6));
+				o.setTotal(rs.getInt(7));
+				o.setGst(rs.getInt(8));
+				o.setGtotal(rs.getInt(9));
+				al.add(o);
+			}
+			return al;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return al;
+	}
 	public static boolean UpdateProduct(Products p) {
 		try {
 			String sql = "UPDATE product SET qty=? WHERE pid=?";
